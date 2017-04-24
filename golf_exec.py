@@ -133,8 +133,12 @@ class FonceStrategy_2vs2(Strategy):
 				else :
 					zones = zones[1:len(zones)-1]
 					zone = zones[0]
-				return SoccerAction(state.ball.position-state.player_state(id_team,id_player).position,\
+				adv = mstate.adv_nearby()
+				if mstate.ball_position.distance(state.player_state(adv[0], adv[1]).position) > 35:
+					return SoccerAction(state.ball.position-state.player_state(id_team,id_player).position,\
 					((zone.position+Vector2D(zone.l/2.,zone.l/2.))-state.ball.position).normalize()*10)
+				else:
+					return mstate.shoot(mstate.co_players[0])
 			else:
 				return
         	""" sinon """
@@ -154,5 +158,5 @@ team2.add("John",FonceStrategy_g())
 #show_simu(simu)
 #simu = Parcours3(team1=team1,vitesse=SLALOM)
 #show_simu(simu)
-#simu = Parcours4(team1=team1,team2=team2,vitesse=SLALOM)
-#show_simu(simu)
+simu = Parcours4(team1=team1,team2=team2,vitesse=SLALOM)
+show_simu(simu)
